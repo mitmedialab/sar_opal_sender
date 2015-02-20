@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package>
+  <name>sar_opal_sender</name>
+  <version>0.0.1</version>
+  <description>Sends a command to a SAR Opal tablet</description>
+
+  <maintainer email="jakory@media.mit.edu">jakory</maintainer>
+  <license>MIT</license>
+  <url type="website">https://github.com/personal-robots/sar-opal-sender</url>
+  <author email="jakory@media.mit.edu">jakory</author> 
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>rospy</build_depend>
+  <run_depend>rospy</run_depend>
+
+</package>
