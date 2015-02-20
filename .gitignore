@@ -2,7 +2,6 @@
 *.json
 
 # git's automatically generated list of ROS files and directories to ignore
-
 build/
 bin/
 lib/
@@ -32,11 +31,13 @@ msg/_*.py
 
 # qcreator stuff
 CMakeLists.txt.user
+
 srv/_*.py
 *.pcd
 *.pyc
 qtcreator-*
 *.user
+
 /planning/cfg
 /planning/docs
 /planning/src
