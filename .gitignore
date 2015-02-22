@@ -1,5 +1,5 @@
-# ignore .json config files for now
-*.json
+# vim/gvim swap files
+*.swp
 
 # git's automatically generated list of ROS files and directories to ignore
 build/

@@ -20,7 +20,7 @@ def opal_sender():
             dest='touch',help='enable/disable touch events on tablet')
     parser.add_argument('-r', '--reset', action='store_true',
             help='reload all objects and reset scene on tablet')
-    parser.add_argument('-a', '--sidekick_do', dest='sidekick_do', 
+    parser.add_argument('-d', '--sidekick_do', dest='sidekick_do', 
             action='append', nargs='?', type=str,
             help='tells sidekick to do specified action')
     parser.add_argument('-s', '--sidekick_say', dest='sidekick_say', 
