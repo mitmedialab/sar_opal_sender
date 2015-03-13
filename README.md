@@ -1,6 +1,10 @@
 # sar\_opal\_sender
 Opal sender is a ROS package that allows you to enter commands to send to a SAR Opal tablet via a rosbridge\_server websocket connection.
 
+Note that for communication with the tablet to occur, you need to have the rosbridge\_server running, using the following command:
+
+roslaunch rosbridge\_server rosbridge\_websocket.launch
+
 ## Usage
 opal\_sender.ph \[-h\] \[-l \[LOADME\]\] \[-t \{enable,e,disable,d\}\]\[-r\]\[-a \[SIDEKICK\_DO\]\] \[-s \[SIDEKICK\_SAY\]\]
 
