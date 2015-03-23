@@ -26,17 +26,17 @@ def opal_sender():
     parser.add_argument('-s', '--sidekick_say', dest='sidekick_say', 
             action='append', nargs='?', type=str,
             help='tells sidekick to say specified speech')
-    parser.add_argument('c', '--clear', action='store_true',
+    parser.add_argument('-c', '--clear', action='store_true',
             help='clear all objects from tablet screen')
-    parser.add_argument('m', '--move', dest='moveme', action='append',
+    parser.add_argument('-m', '--move', dest='moveme', action='append',
             nargs='?', help='move the game object specified in this json'
             +' config file to the specified position on the tablet')
-    parser.add_argument('i', '--highlight', dest='highlight',
+    parser.add_argument('-i', '--highlight', dest='highlight',
             action='append', nargs='?', type=str, help='highlight '
             + 'the specified game object')
-    parser.add_argument('k', '--keyframe', action='store_true',
+    parser.add_argument('-k', '--keyframe', action='store_true',
             help='request the state of all objects on the tablet')
-    parser.add_argument('g', '--goal', dest='atgoal', action='append',
+    parser.add_argument('-g', '--goal', dest='atgoal', action='append',
             nargs='?', type=str, help='tell tablet that the specified'
             + ' object(s) are at the goal position(s)')
     
@@ -142,6 +142,7 @@ def opal_sender():
 
     # send move object command
     # for each object to move, send a message
+    if args.moveme:
         for obj in args.moveme:
             # parse config file to get details of object or
             # background to load
@@ -198,7 +199,7 @@ def opal_sender():
     if args.atgoal:
         # build message
         msg = OpalCommand()
-        msg.command = OpalCommand.GOT_TO_GOAL
+        msg.command = OpalCommand.AT_GOAL
         msg.properties = args.atgoal[0]
         # send Opal message to tablet game
         pub.publish(msg)
