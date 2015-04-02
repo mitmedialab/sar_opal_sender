@@ -3,5 +3,6 @@
     "tag": "PlayObject",
     "draggable": "true",
     "audioFile": "chimes",
-    "initPosition": [-300,300,0]
+    "position": [-300,300,0],
+    "scale": [100,100,100]
 }

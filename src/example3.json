@@ -3,8 +3,7 @@
     "tag": "PlayObject",
     "draggable": "false",
     "audioFile": "wakeup",
-    "initPosition": ["300","-100","0"],
-    "endPositions": [ [ "100","100", "0"],
-                    ["200", "100","0"]]
+    "position": ["300","-100","0"],
+    "scale": ["100","100", "100"]
 }
 
