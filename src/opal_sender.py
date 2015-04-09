@@ -47,7 +47,7 @@ def opal_sender():
     # open ros up here, then run through the below and send all
 
     # start ROS node
-    pub = rospy.Publisher('opal_command', OpalCommand, queue_size=10)
+    pub = rospy.Publisher('opal_tablet_command', OpalCommand, queue_size=10)
     rospy.init_node('opal_sender', anonymous=True)
     r = rospy.Rate(10) # spin at 10 Hz
     r.sleep() # sleep to wait for subscribers

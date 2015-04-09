@@ -34,8 +34,8 @@ Several example config files are included here. Each file should contain one val
 >    "tag": "PlayObject",  
 >    "draggable": "true",  
 >    "audioFile": "chimes",  
->    "position": ["0","0","0"],
->    "scale": ["100","100","100"]
+>    "position": [0,0,0],
+>    "scale": [100,100,100]
 > }
 
 Here is another example:
@@ -44,8 +44,8 @@ Here is another example:
 >    "tag": "PlayObject",  
 >    "draggable": "false",  
 >    "audioFile": "wakeup",  
->    "position": ["300","10","0"],  
->    "scale": ["100","100","100"]
+>    "position": [300,10,0],  
+>    "scale": [100,100,100]
 > }
 
 Note that you don't have to put the numbers in quotes - if you do, they'll be strings, if you don't, they'll be numbers; either way, the tablet will parse it correctly.
@@ -59,6 +59,6 @@ If you want to load a background image instead of a draggable object, you would 
 If you want to specify which object to move, you would write:
 > {
 >     "name": "dragon",
->     "moveTo": ["100","200","0"]
+>     "destination": [100,200,0]
 > }
 
