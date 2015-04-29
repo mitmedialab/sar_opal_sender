@@ -36,9 +36,8 @@ def opal_sender():
             + 'the specified game object')
     parser.add_argument('-k', '--keyframe', action='store_true',
             help='request the state of all objects on the tablet')
-    parser.add_argument('-g', '--goal', dest='atgoal', action='append',
-            nargs='?', type=str, help='tell tablet that the specified'
-            + ' object(s) are at the goal position(s)')
+    parser.add_argument('-f', '--fade', choices=['fade','f','unfade','u'],
+            type=str, dest='fade', help='fade/unfade screen on tablet')
     
     args = parser.parse_args()
     print(args)
@@ -195,12 +194,11 @@ def opal_sender():
         rospy.loginfo(msg)
         r.sleep()
 
-    # send got to goal command
-    if args.atgoal:
+    # send fade or unfade screen command
+    if args.fade:
         # build message
         msg = OpalCommand()
-        msg.command = OpalCommand.AT_GOAL
-        msg.properties = args.atgoal[0]
+        msg.command = OpalCommand.FADE_SCREEN if args.touch == 'fade' or args.touch == 'f' else OpalCommand.UNFADE_SCREEN
         # send Opal message to tablet game
         pub.publish(msg)
         rospy.loginfo(msg)

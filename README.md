@@ -24,8 +24,11 @@ reload all objects and reset secene on the tablet
 -d \[SIDEKICK\_DO\], --sidekick\_do \[SIDEKICK\_DO\]  
 tells virtual sidekick on tablet to do the specified action
 
--s [SIDEKICK\_SAY], --sidekick\_say [SIDEKICK\_SAY]  
+-s \[SIDEKICK\_SAY\], --sidekick\_say [SIDEKICK\_SAY]  
 tells virtual sidekick on tablet to say the specified speech
+
+-f \{fade,f,unfade,u\}, --fade \{fade,f,unfade,u\}
+fade or unfade the tablet screen
 
 ## Load object JSON config files
 Several example config files are included here. Each file should contain one valid JSON object with the relevant properties for the object to load. For example, if you want to load the "dragon" image as a draggable PlayObject, with the audio file "chimes" attached (so that "chimes" plays whenever you tap the object), and you want this object to be created at /(0,0,0/) in the tablet screen world with the image scaled by /(100,100,100/), you would write:
