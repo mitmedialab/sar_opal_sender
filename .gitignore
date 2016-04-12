@@ -48,3 +48,8 @@ qtcreator-*
 
 # Catkin custom files
 CATKIN_IGNORE
+
+# load files
+*.sh
+scene_loaders/
+cyber4_json_objs/

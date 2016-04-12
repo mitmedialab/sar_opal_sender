@@ -6,9 +6,10 @@ Note that for communication with the tablet to occur, you need to have the rosbr
 roslaunch rosbridge\_server rosbridge\_websocket.launch
 
 ## Usage
-opal\_sender.ph \[-h\] \[-l \[LOADME\]\] \[-t \{enable,e,disable,d\}\]\[-r\]\[-a \[SIDEKICK\_DO\]\] \[-s \[SIDEKICK\_SAY\]\]
+opal\_sender.ph \[-h\] \[-l \[LOADME\]\] \[-t \{enable,e,disable,d\}\] \[-r\] \[-d \[SIDEKICK\_DO\]\] \[-s \[SIDEKICK\_SAY\]\] \[-f \{fade,f,unfade,u\}\] \[-e \[SET\_CORRECT\]\] \[-w \{show,s,hide,h\}\]
 
 Optional arguments:
+
 -h, --help  
 show this help message and exit
 
@@ -30,16 +31,23 @@ tells virtual sidekick on tablet to say the specified speech
 -f \{fade,f,unfade,u\}, --fade \{fade,f,unfade,u\}
 fade or unfade the tablet screen
 
-## Load object JSON config files
-Several example config files are included here. Each file should contain one valid JSON object with the relevant properties for the object to load. For example, if you want to load the "dragon" image as a draggable PlayObject, with the audio file "chimes" attached (so that "chimes" plays whenever you tap the object), and you want this object to be created at /(0,0,0/) in the tablet screen world with the image scaled by /(100,100,100/), you would write:
-> {  
->    "name": "dragon",  
->    "tag": "PlayObject",  
->    "draggable": "true",  
->    "audioFile": "chimes",  
->    "position": [0,0,0],
->    "scale": [100,100,100]
-> }
+-e \[SET\_CORRECT\], --set\_correct \[SET\_CORRECT\]
+tag a set of objects as correct or incorrect responses
+ 
+-w \{show,s,hide,h\}, --correct \{show,s,hide,h\}
+show or hide visual feedback for correct or incorrect responses
+
+## JSON config files
+
+Several example config files are included here. Each file should contain one
+valid JSON object with the relevant properties for the object to load. For
+example, if you want to load the "dragon" image as a draggable PlayObject, with
+the audio file "chimes" attached (so that "chimes" plays whenever you tap the
+object), and you want this object to be created at /(0,0,0/) in the tablet
+screen world with the image scaled by /(100,100,100/), you would write:
+
+> {  "name": "dragon",  "tag": "PlayObject",  "draggable": "true",
+> "audioFile": "chimes",  "position": [0,0,0], "scale": [100,100,100] }
 
 Here is another example:
 > {  
@@ -65,3 +73,8 @@ If you want to specify which object to move, you would write:
 >     "destination": [100,200,0]
 > }
 
+If you want to tag objects as correct or incorrect, you would write:
+> {
+>       "correct":["dragon"],
+>       "incorrect":["ball1","cat"]
+> }

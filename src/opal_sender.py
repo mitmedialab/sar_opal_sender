@@ -38,6 +38,14 @@ def opal_sender():
             help='request the state of all objects on the tablet')
     parser.add_argument('-f', '--fade', choices=['fade','f','unfade','u'],
             type=str, dest='fade', help='fade/unfade screen on tablet')
+    parser.add_argument('q', '--quit', action='store_true', 
+            help='quit the tablet app')
+    parser.add_argument('-e', '--set_correct', dest='set_correct',
+            action='append', nargs='?', help='tag game objects as correct' +
+            ' or as incorrect')
+    parser.add_argument('-w', '--correct', choices=['show','s','hide','h'],
+            type=str, dest='correct', help='show/hide visual feedback ' +
+            'for correct/incorrect game objects')
     
     args = parser.parse_args()
     print(args)
@@ -138,6 +146,18 @@ def opal_sender():
         pub.publish(msg)
         rospy.loginfo(msg)
         r.sleep()
+    
+    # send quit command
+    if args.quit:
+        print('quit');
+        # build message
+        msg = OpalCommand()
+        msg.command = OpalCommand.EXIT
+        # send Opal message to tablet game
+        pub.publish(msg)
+        rospy.loginfo(msg)
+        r.sleep()
+
 
     # send move object command
     # for each object to move, send a message
@@ -204,6 +224,45 @@ def opal_sender():
         rospy.loginfo(msg)
         r.sleep()
 
+    # send set correct command 
+    if args.set_correct:
+        for obj in args.set_correct:
+            # parse config file to get details of object or
+            # background to load
+            try:
+                with open (obj) as json_file:
+                    json_data = json.load(json_file)
+                print(json_data)
+                # build message
+                msg = OpalCommand()
+                msg.command = OpalCommand.SET_CORRECT
+                # add the object properties to the message 
+                # (the loaded json data)
+                msg.properties = json.dumps(json_data) 
+                # send Opal message to tablet game
+                pub.publish(msg)
+                rospy.loginfo(msg)
+                r.sleep()
+            except ValueError as e:
+                print('Error! Could not open or parse json config file!'
+                    + '\n Did you use valid json?\nError: %s' % e)
+            except IOError as e:
+                print('Error! Could not open or could not parse json '
+                       +'config file!'
+                    + '\n  Does the file exist in this directory, or did'
+                    + ' you specify the full file path?'
+                    + '\n  Did you include the file extension, if there is'
+                    + ' one?\nError: %s' % e)
+
+    # send fade or unfade screen command
+    if args.correct:
+        # build message
+        msg = OpalCommand()
+        msg.command = OpalCommand.SHOW_CORRECT if args.touch == 'show' or args.touch == 's' else OpalCommand.HIDE_CORRECT
+        # send Opal message to tablet game
+        pub.publish(msg)
+        rospy.loginfo(msg)
+        r.sleep()
 
         
 if __name__ == '__main__':
