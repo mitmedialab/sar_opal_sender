@@ -38,7 +38,7 @@ def opal_sender():
             help='request the state of all objects on the tablet')
     parser.add_argument('-f', '--fade', choices=['fade','f','unfade','u'],
             type=str, dest='fade', help='fade/unfade screen on tablet')
-    parser.add_argument('q', '--quit', action='store_true', 
+    parser.add_argument('-q', '--quit', action='store_true', 
             help='quit the tablet app')
     parser.add_argument('-e', '--set_correct', dest='set_correct',
             action='append', nargs='?', help='tag game objects as correct' +
