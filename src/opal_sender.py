@@ -46,6 +46,9 @@ def opal_sender():
     parser.add_argument('-w', '--correct', choices=['show','s','hide','h'],
             type=str, dest='correct', help='show/hide visual feedback ' +
             'for correct/incorrect game objects')
+    parser.add_argument('-u', '--setup_scene', dest='setup_scene',
+            action='append', nargs='?', help='set up initial game scene for'
+            + ' a social stories game')
     
     args = parser.parse_args()
     print(args)
@@ -254,15 +257,50 @@ def opal_sender():
                     + '\n  Did you include the file extension, if there is'
                     + ' one?\nError: %s' % e)
 
-    # send fade or unfade screen command
+    # send show correct or hide correct command
     if args.correct:
         # build message
         msg = OpalCommand()
-        msg.command = OpalCommand.SHOW_CORRECT if args.touch == 'show' or args.touch == 's' else OpalCommand.HIDE_CORRECT
+        msg.command = OpalCommand.SHOW_CORRECT if args.correct == 'show' or args.correct == 's' else OpalCommand.HIDE_CORRECT
         # send Opal message to tablet game
         pub.publish(msg)
         rospy.loginfo(msg)
         r.sleep()
+
+    # send setup social story scene message 
+    if args.setup_scene:
+        # for each scene to setup, send a message
+        # it would be weird to do setup more than once, since the scene
+        # clears before setup (so only the last setup would really count)
+        for obj in args.setup_scene:
+            # parse config file to get details of scene 
+            try:
+                with open (obj) as json_file:
+                    json_data = json.load(json_file)
+                print(json_data)
+                 # build message
+                msg = OpalCommand()
+                msg.command = OpalCommand.SETUP_STORY_SCENE
+                # add the object properties to the message 
+                # (the loaded json data)
+                msg.properties = json.dumps(json_data) 
+                # send Opal message to tablet game
+                pub.publish(msg)
+                rospy.loginfo(msg)
+                r.sleep()
+            except ValueError as e:
+                print('Error! Could not open or parse json config file!'
+                    + '\n  Did you put only one scene setup config in'
+                    + ' the file?\n  Did you use valid json?'
+                    + '\nError: %s' % e)
+            except IOError as e:
+                print('Error! Could not open or could not parse json '
+                       +'config file!'
+                    + '\n  Does the file exist in this directory, or did'
+                    + ' you specify the full file path?'
+                    + '\n  Did you include the file extension, if there is'
+                    + ' one?\nError: %s' % e)
+
 
         
 if __name__ == '__main__':

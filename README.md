@@ -28,6 +28,21 @@ tells virtual sidekick on tablet to do the specified action
 -s \[SIDEKICK\_SAY\], --sidekick\_say [SIDEKICK\_SAY]  
 tells virtual sidekick on tablet to say the specified speech
 
+-c, --clear
+clear all objects from tablet scene
+
+-m \[MOVEME\], --move \[MOVEME\]
+move specified game object to specified position
+
+-i \[OBJECT\], --highlight \[OBJECT\]
+highlight specified game object
+
+-k, --keyframe
+request state of all game objects on tablet
+
+-q, --quit
+quit the tablet app
+
 -f \{fade,f,unfade,u\}, --fade \{fade,f,unfade,u\}
 fade or unfade the tablet screen
 
@@ -36,6 +51,9 @@ tag a set of objects as correct or incorrect responses
  
 -w \{show,s,hide,h\}, --correct \{show,s,hide,h\}
 show or hide visual feedback for correct or incorrect responses
+
+-c \[SET\_ME\_UP\], --setup\_scene \[SET\_ME\_UP\]
+set up initial game scene for social stories game
 
 ## JSON config files
 
@@ -78,3 +96,11 @@ If you want to tag objects as correct or incorrect, you would write:
 >       "correct":["dragon"],
 >       "incorrect":["ball1","cat"]
 > }
+
+If you want to set up a social stories game scene, you specify whether the scenes will be in order or not, the number of scenes in thes tory, and the number of answer options:
+> {
+>   "numScenes":"4",
+>   "scenesInOrder":true,
+>   "numAnswers":"4"
+> }
+
