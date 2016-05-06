@@ -6,7 +6,7 @@ Note that for communication with the tablet to occur, you need to have the rosbr
 roslaunch rosbridge\_server rosbridge\_websocket.launch
 
 ## Usage
-opal\_sender.ph \[-h\] \[-l \[LOADME\]\] \[-t \{enable,e,disable,d\}\] \[-r\] \[-d \[SIDEKICK\_DO\]\] \[-s \[SIDEKICK\_SAY\]\] \[-f \{fade,f,unfade,u\}\] \[-e \[SET\_CORRECT\]\] \[-w \{show,s,hide,h\}\]
+opal\_sender.py \[-h\] \[-l \[LOADME\]\] \[-t \{enable,e,disable,d\}\] \[-r\] \[-d \[SIDEKICK\_DO\]\] \[-s \[SIDEKICK\_SAY\]\] \[-f \{fade,f,unfade,u\}\] \[-e \[SET\_CORRECT\]\] \[-w \{show,s,hide,h\}\]
 
 Optional arguments:
 
