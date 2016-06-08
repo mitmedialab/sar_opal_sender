@@ -29,6 +29,7 @@ import rospy
 from sar_opal_msgs.msg import OpalCommand
 import argparse
 import json
+from std_msgs.msg import Header # standard ROS msg header
 
 # Opal sender uses ROS to send messages via a rosbridge_server 
 # websocket connection to a SAR Opal tablet. 
@@ -101,6 +102,9 @@ def opal_sender():
                 print(json_data)
                  # build message
                 msg = OpalCommand()
+                # add header
+                msg.header = Header()
+                msg.header.stamp = rospy.Time.now()
                 msg.command = OpalCommand.LOAD_OBJECT
                 # add the object properties to the message 
                 # (the loaded json data)
@@ -126,6 +130,10 @@ def opal_sender():
     if args.sidekick_do:
         # build message
         msg = OpalCommand()
+        # add header
+        msg.header = Header()
+        msg.header.stamp = rospy.Time.now()
+        msg.command = OpalCommand.LOAD_OBJECT
         msg.command = OpalCommand.SIDEKICK_DO
         msg.properties = args.sidekick_do[0]
         # send Opal message to tablet game
@@ -137,6 +145,10 @@ def opal_sender():
     if args.sidekick_say:
         # build message
         msg = OpalCommand()
+        # add header
+        msg.header = Header()
+        msg.header.stamp = rospy.Time.now()
+        msg.command = OpalCommand.LOAD_OBJECT
         msg.command = OpalCommand.SIDEKICK_SAY
         msg.properties = args.sidekick_say[0]
         # send Opal message to tablet game
@@ -148,6 +160,10 @@ def opal_sender():
     if args.touch:
         # build message
         msg = OpalCommand()
+        # add header
+        msg.header = Header()
+        msg.header.stamp = rospy.Time.now()
+        msg.command = OpalCommand.LOAD_OBJECT
         msg.command = OpalCommand.ENABLE_TOUCH if args.touch == 'enabled' or args.touch == 'e' else OpalCommand.DISABLE_TOUCH
         # send Opal message to tablet game
         pub.publish(msg)
@@ -159,6 +175,10 @@ def opal_sender():
         print('reload');
         # build message
         msg = OpalCommand()
+        # add header
+        msg.header = Header()
+        msg.header.stamp = rospy.Time.now()
+        msg.command = OpalCommand.LOAD_OBJECT
         msg.command = OpalCommand.RESET
         # send Opal message to tablet game
         pub.publish(msg)
@@ -170,6 +190,10 @@ def opal_sender():
         print('clear');
         # build message
         msg = OpalCommand()
+        # add header
+        msg.header = Header()
+        msg.header.stamp = rospy.Time.now()
+        msg.command = OpalCommand.LOAD_OBJECT
         msg.command = OpalCommand.CLEAR
         # send Opal message to tablet game
         pub.publish(msg)
@@ -181,6 +205,10 @@ def opal_sender():
         print('quit');
         # build message
         msg = OpalCommand()
+        # add header
+        msg.header = Header()
+        msg.header.stamp = rospy.Time.now()
+        msg.command = OpalCommand.LOAD_OBJECT
         msg.command = OpalCommand.EXIT
         # send Opal message to tablet game
         pub.publish(msg)
@@ -200,6 +228,10 @@ def opal_sender():
                 print(json_data)
                  # build message
                 msg = OpalCommand()
+                # add header
+                msg.header = Header()
+                msg.header.stamp = rospy.Time.now()
+                msg.command = OpalCommand.LOAD_OBJECT
                 msg.command = OpalCommand.MOVE_OBJECT
                 # add the object properties to the message 
                 # (the loaded json data)
@@ -225,6 +257,10 @@ def opal_sender():
     if args.highlight:
         # build message
         msg = OpalCommand()
+        # add header
+        msg.header = Header()
+        msg.header.stamp = rospy.Time.now()
+        msg.command = OpalCommand.LOAD_OBJECT
         msg.command = OpalCommand.HIGHLIGHT_OBJECT
         msg.properties = args.highlight[0]
         # send Opal message to tablet game
@@ -237,6 +273,10 @@ def opal_sender():
         print('request keyframe');
         # build message
         msg = OpalCommand()
+        # add header
+        msg.header = Header()
+        msg.header.stamp = rospy.Time.now()
+        msg.command = OpalCommand.LOAD_OBJECT
         msg.command = OpalCommand.REQUEST_KEYFRAME
         # send Opal message to tablet game
         pub.publish(msg)
@@ -247,6 +287,10 @@ def opal_sender():
     if args.fade:
         # build message
         msg = OpalCommand()
+        # add header
+        msg.header = Header()
+        msg.header.stamp = rospy.Time.now()
+        msg.command = OpalCommand.LOAD_OBJECT
         msg.command = OpalCommand.FADE_SCREEN if args.touch == 'fade' or args.touch == 'f' else OpalCommand.UNFADE_SCREEN
         # send Opal message to tablet game
         pub.publish(msg)
@@ -264,6 +308,10 @@ def opal_sender():
                 print(json_data)
                 # build message
                 msg = OpalCommand()
+                # add header
+                msg.header = Header()
+                msg.header.stamp = rospy.Time.now()
+                msg.command = OpalCommand.LOAD_OBJECT
                 msg.command = OpalCommand.SET_CORRECT
                 # add the object properties to the message 
                 # (the loaded json data)
@@ -287,6 +335,10 @@ def opal_sender():
     if args.correct:
         # build message
         msg = OpalCommand()
+        # add header
+        msg.header = Header()
+        msg.header.stamp = rospy.Time.now()
+        msg.command = OpalCommand.LOAD_OBJECT
         msg.command = OpalCommand.SHOW_CORRECT if args.correct == 'show' or args.correct == 's' else OpalCommand.HIDE_CORRECT
         # send Opal message to tablet game
         pub.publish(msg)
@@ -306,6 +358,10 @@ def opal_sender():
                 print(json_data)
                  # build message
                 msg = OpalCommand()
+                # add header
+                msg.header = Header()
+                msg.header.stamp = rospy.Time.now()
+                msg.command = OpalCommand.LOAD_OBJECT
                 msg.command = OpalCommand.SETUP_STORY_SCENE
                 # add the object properties to the message 
                 # (the loaded json data)
