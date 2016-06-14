@@ -104,3 +104,16 @@ If you want to set up a social stories game scene, you specify whether the scene
 >   "numAnswers":"4"
 > }
 
+## Version and dependency notes
+
+This node was built and tested with:
+
+- Python 2.7.6
+- ROS Indigo
+- Ubuntu 14.04 LTS (64-bit)
+- sar\_opal\_msgs 4.0.0
+
+## Bugs and issues
+
+Please report all bugs and issues on the [sar\_opal\_sender github issues
+page](https://github.com/personal-robots/sar_opal_sender/issues).

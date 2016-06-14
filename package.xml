@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>sar_opal_sender</name>
-  <version>1.1.0</version>
+  <version>1.2.0</version>
   <description>Sends a command to a SAR Opal tablet</description>
 
   <maintainer email="jakory@media.mit.edu">jakory</maintainer>
