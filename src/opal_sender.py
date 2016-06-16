@@ -40,7 +40,7 @@ def opal_sender():
             description='Send a message to a' 
             + ' SAR Opal project tablet. Must have roscore and '
             + 'rosbridge_server running for message to be sent.')
-    parser.add_argument('-l', '--load', dest='loadme', action='append', nargs='?',
+    parser.add_argument('-l', '--load', dest='loadme', action='append', nargs='+',
             help='load the game object specified in this json config file' +
             ' on the tablet')
     parser.add_argument('-t', '--touch', choices=['enable','e','disable','d'],
@@ -48,18 +48,19 @@ def opal_sender():
     parser.add_argument('-r', '--reset', action='store_true',
             help='reload all objects and reset scene on tablet')
     parser.add_argument('-d', '--sidekick_do', dest='sidekick_do', 
-            action='append', nargs='?', type=str,
+            action='append', nargs='+', type=str,
             help='tells sidekick to do specified action')
     parser.add_argument('-s', '--sidekick_say', dest='sidekick_say', 
-            action='append', nargs='?', type=str,
+            action='append', nargs='+', type=str,
             help='tells sidekick to say specified speech')
-    parser.add_argument('-c', '--clear', action='store_true',
-            help='clear all objects from tablet screen')
+    parser.add_argument('-c', '--clear', dest='clear_me', action='append',
+            nargs='?', type=str, default=None,
+            help='clear objects from tablet screen')
     parser.add_argument('-m', '--move', dest='moveme', action='append',
-            nargs='?', help='move the game object specified in this json'
+            nargs='+', help='move the game object specified in this json'
             +' config file to the specified position on the tablet')
     parser.add_argument('-i', '--highlight', dest='highlight',
-            action='append', nargs='?', type=str, help='highlight '
+            action='append', nargs='+', type=str, help='highlight '
             + 'the specified game object')
     parser.add_argument('-k', '--keyframe', action='store_true',
             help='request the state of all objects on the tablet')
@@ -68,13 +69,13 @@ def opal_sender():
     parser.add_argument('-q', '--quit', action='store_true', 
             help='quit the tablet app')
     parser.add_argument('-e', '--set_correct', dest='set_correct',
-            action='append', nargs='?', help='tag game objects as correct' +
+            action='append', nargs='+', help='tag game objects as correct' +
             ' or as incorrect')
     parser.add_argument('-w', '--correct', choices=['show','s','hide','h'],
             type=str, dest='correct', help='show/hide visual feedback ' +
             'for correct/incorrect game objects')
     parser.add_argument('-u', '--setup_scene', dest='setup_scene',
-            action='append', nargs='?', help='set up initial game scene for'
+            action='append', nargs='+', help='set up initial game scene for'
             + ' a social stories game')
     
     args = parser.parse_args()
@@ -89,6 +90,13 @@ def opal_sender():
     r = rospy.Rate(10) # spin at 10 Hz
     r.sleep() # sleep to wait for subscribers
 
+    # start building message
+    msg = OpalCommand()
+    # add header
+    msg.header = Header()
+    msg.header.stamp = rospy.Time.now()
+
+    # fill in command and properties:
 
     # load an object
     if args.loadme:
@@ -101,18 +109,10 @@ def opal_sender():
                     json_data = json.load(json_file)
                 print(json_data)
                  # build message
-                msg = OpalCommand()
-                # add header
-                msg.header = Header()
-                msg.header.stamp = rospy.Time.now()
                 msg.command = OpalCommand.LOAD_OBJECT
                 # add the object properties to the message 
                 # (the loaded json data)
                 msg.properties = json.dumps(json_data) 
-                # send Opal message to tablet game
-                pub.publish(msg)
-                rospy.loginfo(msg)
-                r.sleep()
             except ValueError as e:
                 print('Error! Could not open or parse json config file!'
                     + '\n  Did you put only one game object config in'
@@ -129,91 +129,40 @@ def opal_sender():
     # sidekick do an action
     if args.sidekick_do:
         # build message
-        msg = OpalCommand()
-        # add header
-        msg.header = Header()
-        msg.header.stamp = rospy.Time.now()
-        msg.command = OpalCommand.LOAD_OBJECT
         msg.command = OpalCommand.SIDEKICK_DO
         msg.properties = args.sidekick_do[0]
-        # send Opal message to tablet game
-        pub.publish(msg)
-        rospy.loginfo(msg)
-        r.sleep()
 
     # sidekick say something
     if args.sidekick_say:
         # build message
-        msg = OpalCommand()
-        # add header
-        msg.header = Header()
-        msg.header.stamp = rospy.Time.now()
-        msg.command = OpalCommand.LOAD_OBJECT
         msg.command = OpalCommand.SIDEKICK_SAY
         msg.properties = args.sidekick_say[0]
-        # send Opal message to tablet game
-        pub.publish(msg)
-        rospy.loginfo(msg)
-        r.sleep()
 
     # send enable or disable touch events command
     if args.touch:
         # build message
-        msg = OpalCommand()
-        # add header
-        msg.header = Header()
-        msg.header.stamp = rospy.Time.now()
-        msg.command = OpalCommand.LOAD_OBJECT
-        msg.command = OpalCommand.ENABLE_TOUCH if args.touch == 'enabled' or args.touch == 'e' else OpalCommand.DISABLE_TOUCH
-        # send Opal message to tablet game
-        pub.publish(msg)
-        rospy.loginfo(msg)
-        r.sleep()
+        msg.command = OpalCommand.ENABLE_TOUCH if args.touch == 'enabled' \
+                or args.touch == 'e' else OpalCommand.DISABLE_TOUCH
 
     # send reset scene and reload objects command
     if args.reset:
         print('reload');
         # build message
-        msg = OpalCommand()
-        # add header
-        msg.header = Header()
-        msg.header.stamp = rospy.Time.now()
-        msg.command = OpalCommand.LOAD_OBJECT
         msg.command = OpalCommand.RESET
-        # send Opal message to tablet game
-        pub.publish(msg)
-        rospy.loginfo(msg)
-        r.sleep()
 
     # send clear scene command
-    if args.clear:
+    if args.clear_me:
         print('clear');
         # build message
-        msg = OpalCommand()
-        # add header
-        msg.header = Header()
-        msg.header.stamp = rospy.Time.now()
-        msg.command = OpalCommand.LOAD_OBJECT
         msg.command = OpalCommand.CLEAR
-        # send Opal message to tablet game
-        pub.publish(msg)
-        rospy.loginfo(msg)
-        r.sleep()
+        if args.clear_me[0]:
+            msg.properties = args.clear_me[0]
     
     # send quit command
     if args.quit:
         print('quit');
         # build message
-        msg = OpalCommand()
-        # add header
-        msg.header = Header()
-        msg.header.stamp = rospy.Time.now()
-        msg.command = OpalCommand.LOAD_OBJECT
         msg.command = OpalCommand.EXIT
-        # send Opal message to tablet game
-        pub.publish(msg)
-        rospy.loginfo(msg)
-        r.sleep()
 
 
     # send move object command
@@ -227,19 +176,10 @@ def opal_sender():
                     json_data = json.load(json_file)
                 print(json_data)
                  # build message
-                msg = OpalCommand()
-                # add header
-                msg.header = Header()
-                msg.header.stamp = rospy.Time.now()
-                msg.command = OpalCommand.LOAD_OBJECT
                 msg.command = OpalCommand.MOVE_OBJECT
                 # add the object properties to the message 
                 # (the loaded json data)
                 msg.properties = json.dumps(json_data) 
-                # send Opal message to tablet game
-                pub.publish(msg)
-                rospy.loginfo(msg)
-                r.sleep()
             except ValueError as e:
                 print('Error! Could not open or parse json config file!'
                     + '\n  Did you put only one game object config in'
@@ -256,46 +196,20 @@ def opal_sender():
     # send highlight object command
     if args.highlight:
         # build message
-        msg = OpalCommand()
-        # add header
-        msg.header = Header()
-        msg.header.stamp = rospy.Time.now()
-        msg.command = OpalCommand.LOAD_OBJECT
         msg.command = OpalCommand.HIGHLIGHT_OBJECT
         msg.properties = args.highlight[0]
-        # send Opal message to tablet game
-        pub.publish(msg)
-        rospy.loginfo(msg)
-        r.sleep()
 
     # send request keyframe command
     if args.keyframe:
         print('request keyframe');
         # build message
-        msg = OpalCommand()
-        # add header
-        msg.header = Header()
-        msg.header.stamp = rospy.Time.now()
-        msg.command = OpalCommand.LOAD_OBJECT
         msg.command = OpalCommand.REQUEST_KEYFRAME
-        # send Opal message to tablet game
-        pub.publish(msg)
-        rospy.loginfo(msg)
-        r.sleep()
 
     # send fade or unfade screen command
     if args.fade:
         # build message
-        msg = OpalCommand()
-        # add header
-        msg.header = Header()
-        msg.header.stamp = rospy.Time.now()
-        msg.command = OpalCommand.LOAD_OBJECT
-        msg.command = OpalCommand.FADE_SCREEN if args.touch == 'fade' or args.touch == 'f' else OpalCommand.UNFADE_SCREEN
-        # send Opal message to tablet game
-        pub.publish(msg)
-        rospy.loginfo(msg)
-        r.sleep()
+        msg.command = OpalCommand.FADE_SCREEN if args.touch == 'fade' \
+                or args.touch == 'f' else OpalCommand.UNFADE_SCREEN
 
     # send set correct command 
     if args.set_correct:
@@ -307,19 +221,10 @@ def opal_sender():
                     json_data = json.load(json_file)
                 print(json_data)
                 # build message
-                msg = OpalCommand()
-                # add header
-                msg.header = Header()
-                msg.header.stamp = rospy.Time.now()
-                msg.command = OpalCommand.LOAD_OBJECT
                 msg.command = OpalCommand.SET_CORRECT
                 # add the object properties to the message 
                 # (the loaded json data)
                 msg.properties = json.dumps(json_data) 
-                # send Opal message to tablet game
-                pub.publish(msg)
-                rospy.loginfo(msg)
-                r.sleep()
             except ValueError as e:
                 print('Error! Could not open or parse json config file!'
                     + '\n Did you use valid json?\nError: %s' % e)
@@ -334,16 +239,8 @@ def opal_sender():
     # send show correct or hide correct command
     if args.correct:
         # build message
-        msg = OpalCommand()
-        # add header
-        msg.header = Header()
-        msg.header.stamp = rospy.Time.now()
-        msg.command = OpalCommand.LOAD_OBJECT
-        msg.command = OpalCommand.SHOW_CORRECT if args.correct == 'show' or args.correct == 's' else OpalCommand.HIDE_CORRECT
-        # send Opal message to tablet game
-        pub.publish(msg)
-        rospy.loginfo(msg)
-        r.sleep()
+        msg.command = OpalCommand.SHOW_CORRECT if args.correct == 'show' \
+                or args.correct == 's' else OpalCommand.HIDE_CORRECT
 
     # send setup social story scene message 
     if args.setup_scene:
@@ -357,19 +254,10 @@ def opal_sender():
                     json_data = json.load(json_file)
                 print(json_data)
                  # build message
-                msg = OpalCommand()
-                # add header
-                msg.header = Header()
-                msg.header.stamp = rospy.Time.now()
-                msg.command = OpalCommand.LOAD_OBJECT
                 msg.command = OpalCommand.SETUP_STORY_SCENE
                 # add the object properties to the message 
                 # (the loaded json data)
                 msg.properties = json.dumps(json_data) 
-                # send Opal message to tablet game
-                pub.publish(msg)
-                rospy.loginfo(msg)
-                r.sleep()
             except ValueError as e:
                 print('Error! Could not open or parse json config file!'
                     + '\n  Did you put only one scene setup config in'
@@ -383,6 +271,10 @@ def opal_sender():
                     + '\n  Did you include the file extension, if there is'
                     + ' one?\nError: %s' % e)
 
+    # send Opal message to tablet game
+    pub.publish(msg)
+    rospy.loginfo(msg)
+    r.sleep()
 
         
 if __name__ == '__main__':
