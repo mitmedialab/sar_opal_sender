@@ -77,6 +77,7 @@ def opal_sender():
     parser.add_argument('-u', '--setup_scene', dest='setup_scene',
             action='append', nargs='?', help='set up initial game scene for'
             + ' a social stories game')
+    parser.add_argument('--story',type=str,dest='story_id', action='append', help='specify a story to load')
 
     args = parser.parse_args()
     print(args)
@@ -85,7 +86,7 @@ def opal_sender():
     # open ros up here, then run through the below and send all
 
     # start ROS node
-    pub = rospy.Publisher('/sar/opal_command', OpalCommand, queue_size=10)
+    pub = rospy.Publisher('/opal_tablet_command', OpalCommand, queue_size=10)
     rospy.init_node('opal_sender', anonymous=True)
     r = rospy.Rate(10) # spin at 10 Hz
     r.sleep() # sleep to wait for subscribers
@@ -242,6 +243,10 @@ def opal_sender():
         msg.command = OpalCommand.SHOW_CORRECT if args.correct == 'show' \
                 or args.correct == 's' else OpalCommand.HIDE_CORRECT
 
+    if args.story_id:
+        msg.command = OpalCommand.STORY_SELECTION
+        msg.properties = args.story_id[0]
+        
     # send setup social story scene message
     if args.setup_scene:
         # for each scene to setup, send a message
