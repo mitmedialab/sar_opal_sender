@@ -63,6 +63,23 @@ show or hide visual feedback for correct or incorrect responses
 -u \[SET\_ME\_UP\], --setup\_scene \[SET\_ME\_UP\]  
 set up initial game scene for social stories game
 
+
+## Commands for Storybook App
+--storybook_selection [story name]
+pass a valid story name to load the story to the app
+
+--storybook_page_next "next"
+pass "next" to go to the next story page on the app
+
+--storybook_page_prev "prev"
+pass "prev" to go to the previous story page on the app
+
+--storybook_page_buttons \[show,s,hide,h]
+either show or hide flip bottuns
+
+--touch [enable,e,disable,d]
+either enable or disable the touch feature on the app
+
 ## JSON config files
 
 Several example config files are included here. Each file should contain one
