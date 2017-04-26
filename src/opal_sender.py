@@ -87,6 +87,9 @@ def opal_sender():
     parser.add_argument('-t', '--touch', choices=['enable','e','disable','d'],
             type=str, dest='touch',help='enable/disable touch events on tablet')
 
+    parser.add_argument('--storybook_go_to_page',type=str,dest='go_to_page', action='append', help='specify a page number to jump to in the storybook')
+   
+
     args = parser.parse_args()
     print(args)
 
@@ -262,6 +265,10 @@ def opal_sender():
     if args.previous_page:
         msg.command = OpalCommand.PREV_PAGE if args.previous_page[0] == "prev" \
                 else OpalCommand.SAME_PAGE
+
+    if args.go_to_page:
+        msg.command = OpalCommand.STORY_GO_TO_PAGE 
+        msg.properties = args.go_to_page[0]
                
 
     if args.page_buttons:
