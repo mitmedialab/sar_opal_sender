@@ -83,6 +83,15 @@ def opal_sender():
     parser.add_argument("-u", "--setup_scene", dest="setup_scene",
                         action="append", nargs="?", help="set up initial game "
                         "scene for a social stories game")
+    parser.add_argument("-o", "--story-selection", dest="story_selection",
+                        action="append", nargs="?", type=str,
+                        help="Load a storybook.")
+    parser.add_argument("-b", "--buttons", type=str, dest="buttons",
+                        choices=["show", "s", "hide", "h"],
+                        help="Show/hide the flip buttons for a storybook.")
+    parser.add_argument("-p", "--story-go-to-page", dest="story_page",
+                        action="append", nargs="?", type=int,
+                        help="Go to a page in a storybook.")
 
     args = parser.parse_args()
     print args
@@ -91,7 +100,7 @@ def opal_sender():
     # Open ros up here, then run through the below and send all.
 
     # Start ROS node.
-    pub = rospy.Publisher("/sar/opal_command", OpalCommand, queue_size=10)
+    pub = rospy.Publisher("/opal_tablet_command", OpalCommand, queue_size=10)
     rospy.init_node("opal_sender", anonymous=True)
     rnode = rospy.Rate(10)
     # Sleep to wait for subscribers.
@@ -251,6 +260,19 @@ def opal_sender():
                     " you specify the full file path?" \
                     "\n  Did you include the file extension, if there is" \
                     " one?\nError:{}".format(err)
+
+    if args.story_selection:
+        print "Selecting story: {}".format(args.story_selection[0])
+        msg.command = OpalCommand.STORY_SELECTION
+        msg.properties = args.story_selection[0]
+
+    if args.buttons:
+        msg.command = OpalCommand.STORY_SHOW_BUTTONS if args.buttons == "s" \
+            or args.buttons == "show" else OpalCommand.STORY_HIDE_BUTTONS
+
+    if args.story_page:
+        msg.command = OpalCommand.STORY_GO_TO_PAGE
+        msg.properties = str(args.story_page[0])
 
     # Send Opal message to tablet game.
     pub.publish(msg)
