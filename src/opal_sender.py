@@ -43,7 +43,8 @@ def opal_sender():
     parser.add_argument('-l', '--load', dest='loadme', action='append', nargs='?',
             help='load the game object specified in this json config file' +
             ' on the tablet')
-   
+    parser.add_argument('-t', '--touch', choices=['enable','e','disable','d'],
+            type=str, dest='touch',help='enable/disable touch events on tablet')
     parser.add_argument('-r', '--reset', action='store_true',
             help='reload all objects and reset scene on tablet')
     parser.add_argument('-d', '--sidekick_do', dest='sidekick_do',
@@ -76,16 +77,7 @@ def opal_sender():
     parser.add_argument('-u', '--setup_scene', dest='setup_scene',
             action='append', nargs='?', help='set up initial game scene for'
             + ' a social stories game')
-    parser.add_argument('--storybook_selection',type=str,dest='story_id', action='append', help='specify a story to load')
-    
-    parser.add_argument('--storybook_page_next',type=str,dest='next_page', action='append', help='go to next page of the storybook')
-    
-    parser.add_argument('--storybook_page_prev',type=str,dest='previous_page', action='append', help='go to next page of the storybook')
-
-    parser.add_argument('--storybook_page_buttons',choices=['show','s','hide','h'],type=str,dest='page_buttons', action='append', help='show or hide flip page buttons on the screen')
-
-    parser.add_argument('-t', '--touch', choices=['enable','e','disable','d'],
-            type=str, dest='touch',help='enable/disable touch events on tablet')
+    parser.add_argument('--story',type=str,dest='story_id', action='append', help='specify a story to load')
 
     args = parser.parse_args()
     print(args)
@@ -150,7 +142,7 @@ def opal_sender():
     # send enable or disable touch events command
     if args.touch:
         # build message
-        msg.command = OpalCommand.ENABLE_TOUCH if args.touch == 'enable' \
+        msg.command = OpalCommand.ENABLE_TOUCH if args.touch == 'enabled' \
                 or args.touch == 'e' else OpalCommand.DISABLE_TOUCH
 
     # send reset scene and reload objects command
@@ -254,26 +246,6 @@ def opal_sender():
     if args.story_id:
         msg.command = OpalCommand.STORY_SELECTION
         msg.properties = args.story_id[0]
-
-    if args.next_page:
-        msg.command = OpalCommand.NEXT_PAGE if args.next_page[0] == "next" \
-                else OpalCommand.SAME_PAGE 
-
-    if args.previous_page:
-        msg.command = OpalCommand.PREV_PAGE if args.previous_page[0] == "prev" \
-                else OpalCommand.SAME_PAGE
-               
-
-    if args.page_buttons:
-        print "here??"
-        print args.page_buttons
-        if args.page_buttons[0] == "hide" or args.page_buttons[0]== "h":
-            print "hide"
-            msg.command = OpalCommand.STORY_HIDE_BUTTONS
-        elif args.page_buttons[0] == "show" or args.page_buttons[0]== "s":
-            print "show"
-            msg.command = OpalCommand.STORY_SHOW_BUTTONS 
-
         
     # send setup social story scene message
     if args.setup_scene:
