@@ -17,51 +17,60 @@ opal\_sender.py \[-h\] \[-l \[LOADME\]\] \[-t \{enable,e,disable,d\}\] \[-r\]
 
 Optional arguments:
 
--h, --help  
-show this help message and exit
+-h, --help
+Show this help message and exit.
 
--l \[LOADME\], --load \[LOADME\]  
-tell tablet to load the game object specified in the LOADME json config file
+-l \[LOADME\], --load \[LOADME\]
+Tell tablet to load the game object specified in the LOADME json config file.
 
--t \{enable,e,disable,d\}, --touch \{enable,e,disable,d\}  
-enable or disable touch events on the tablet
+-t \{enable,e,disable,d\}, --touch \{enable,e,disable,d\}
+Enable or disable touch events on the tablet.
 
--r, --reset  
-reload all objects and reset secene on the tablet
+-r, --reset
+Reload all objects and reset secene on the tablet.
 
--d \[SIDEKICK\_DO\], --sidekick\_do \[SIDEKICK\_DO\]  
-tells virtual sidekick on tablet to do the specified action
+-d \[SIDEKICK\_DO\], --sidekick\_do \[SIDEKICK\_DO\]
+Tells virtual sidekick on tablet to do the specified action.
 
--s \[SIDEKICK\_SAY\], --sidekick\_say [SIDEKICK\_SAY]  
-tells virtual sidekick on tablet to say the specified speech
+-s \[SIDEKICK\_SAY\], --sidekick\_say [SIDEKICK\_SAY]
+Tells virtual sidekick on tablet to say the specified speech.
 
--c, \[CLEAR\_ME\], --clear \[CLEAR\_ME\]  
-clear objects from game scene; if no string provided, clears all; otherwise
-CLEAR\_ME is used to determine which objects to clear
+-c, \[CLEAR\_ME\], --clear \[CLEAR\_ME\]
+Clear objects from game scene; if no string provided, clears all; otherwise
+CLEAR\_ME is used to determine which objects to clear.
 
--m \[MOVEME\], --move \[MOVEME\]  
-move specified game object to specified position
+-m \[MOVEME\], --move \[MOVEME\]
+Move specified game object to specified position.
 
--i \[OBJECT\], --highlight \[OBJECT\]  
-highlight specified game object
+-i \[OBJECT\], --highlight \[OBJECT\]
+Highlight specified game object.
 
--k, --keyframe  
-request state of all game objects on tablet
+-k, --keyframe
+Request state of all game objects on tablet.
 
--q, --quit  
-quit the tablet app
+-q, --quit
+Quit the tablet app.
 
--f \{fade,f,unfade,u\}, --fade \{fade,f,unfade,u\}  
-fade or unfade the tablet screen
+-f \{fade,f,unfade,u\}, --fade \{fade,f,unfade,u\}
+Fade or unfade the tablet screen.
 
--e \[SET\_CORRECT\], --set\_correct \[SET\_CORRECT\]  
-tag a set of objects as correct or incorrect responses
- 
--w \{show,s,hide,h\}, --correct \{show,s,hide,h\}  
-show or hide visual feedback for correct or incorrect responses
+-e \[SET\_CORRECT\], --set\_correct \[SET\_CORRECT\]
+Tag a set of objects as correct or incorrect responses.
 
--u \[SET\_ME\_UP\], --setup\_scene \[SET\_ME\_UP\]  
-set up initial game scene for social stories game
+-w \{show,s,hide,h\}, --correct \{show,s,hide,h\}
+Show or hide visual feedback for correct or incorrect responses.
+
+-u \[SET\_ME\_UP\], --setup\_scene \[SET\_ME\_UP\]
+Set up initial game scene for social stories game.
+
+-o \[STORY\_SELECTION\], --story-selection \[STORY\_SELECTION\]
+Load a storybook.
+
+-b \{show,s,hide,h\}, --buttons \{show,s,hide,h\}
+Show/hide the flip buttons for a storybook.
+
+-p \[STORY\_PAGE\], --story-go-to-page \[STORY\_PAGE\]
+Go to a page in a storybook.
 
 ## JSON config files
 
