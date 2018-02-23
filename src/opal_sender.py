@@ -92,6 +92,9 @@ def opal_sender():
     parser.add_argument("-p", "--story-go-to-page", dest="story_page",
                         action="append", nargs="?", type=int,
                         help="Go to a page in a storybook.")
+    parser.add_argument("-n", "--page", choices=["next", "n", "prev", "p"],
+                        type=str, dest="change_page", help="Go to the next or "
+                        "to the previous page in a storybook.")
 
     args = parser.parse_args()
     print args
@@ -100,7 +103,7 @@ def opal_sender():
     # Open ros up here, then run through the below and send all.
 
     # Start ROS node.
-    pub = rospy.Publisher("/opal_tablet_command", OpalCommand, queue_size=10)
+    pub = rospy.Publisher("/rr/opal_command", OpalCommand, queue_size=10)
     rospy.init_node("opal_sender", anonymous=True)
     rnode = rospy.Rate(10)
     # Sleep to wait for subscribers.
@@ -273,6 +276,10 @@ def opal_sender():
     if args.story_page:
         msg.command = OpalCommand.STORY_GO_TO_PAGE
         msg.properties = str(args.story_page[0])
+
+    if args.change_page:
+        msg.command = OpalCommand.NEXT_PAGE if args.change_page == "next" \
+                or args.change_page == "n" else OpalCommand.PREV_PAGE
 
     # Send Opal message to tablet game.
     pub.publish(msg)
